@@ -1,0 +1,41 @@
+use std::cli;
+use std::text;
+use vendor::sheet_recalc::sheet_recalc;
+
+fn main() {
+    let arguments = cli_args();
+    if args_len(arguments) > 0 {
+        if args_len(arguments) % 2 != 0 {
+            stderr_line("Expected event and value pairs");
+            process_exit(2);
+        }
+        let mut live = sheet_recalc_start();
+        let mut i = 0;
+        while i < args_len(arguments) {
+            let input = args_at(arguments, i + 1);
+            if !text_is_number(input) {
+                stderr_line("Expected a whole numeric event value");
+                process_exit(2);
+            }
+            live = sheet_recalc_step(live, args_at(arguments, i), text_number(input));
+            let command = sheet_recalc_command(live);
+            println!(command);
+            if command == "reject" { process_exit(1); }
+            i += 2;
+        }
+        return;
+    }
+    let mut state = sheet_recalc_start();
+    state = sheet_recalc_step(state, "edit", 1.0);
+    println!(sheet_recalc_command(state));
+    state = sheet_recalc_step(state, "run", 0.0);
+    println!(sheet_recalc_command(state));
+    state = sheet_recalc_step(state, "edit", 2.0);
+    println!(sheet_recalc_command(state));
+    state = sheet_recalc_step(state, "result", 1.0);
+    println!(sheet_recalc_command(state));
+    state = sheet_recalc_step(state, "run", 0.0);
+    println!(sheet_recalc_command(state));
+    state = sheet_recalc_step(state, "result", 2.0);
+    println!(sheet_recalc_command(state));
+}

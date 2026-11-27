@@ -1,0 +1,40 @@
+use std::cli;
+use vendor::sheet_recalc::sheet_recalc;
+
+fn main() {
+    let mut state = sheet_recalc_start();
+    state = sheet_recalc_step(state, "edit", 1.0);
+    println!(sheet_recalc_command(state));
+    state = sheet_recalc_step(state, "run", 0.0);
+    println!(sheet_recalc_command(state));
+    state = sheet_recalc_step(state, "edit", 2.0);
+    println!(sheet_recalc_command(state));
+    state = sheet_recalc_step(state, "result", 1.0);
+    println!(sheet_recalc_command(state));
+    state = sheet_recalc_step(state, "run", 0.0);
+    println!(sheet_recalc_command(state));
+    state = sheet_recalc_step(state, "result", 2.0);
+    println!(sheet_recalc_command(state));
+    println!(len(sheet_recalc_step([], "bad", 0.0)));
+    println!(sheet_recalc_command(sheet_recalc_step(sheet_recalc_start(), "unrecognized", 0.0)));
+    println!(len(sheet_recalc_replay(args_new(), [1])));
+    let mut events = args_new();
+    events = args_push(events, "edit");
+    events = args_push(events, "run");
+    events = args_push(events, "edit");
+    events = args_push(events, "run");
+    events = args_push(events, "result");
+    println!(sheet_recalc_command(sheet_recalc_replay(events, [1, 0, 2, 0, 2])));
+    let branch_0 = sheet_recalc_step([0, 0, 0], "edit", 1.0);
+    println!(at(branch_0, 0) == 1.0 && at(branch_0, 1) == 1.0 && sheet_recalc_command(branch_0) == "mark_dirty");
+    let branch_1 = sheet_recalc_step([1, 0, 0], "edit", 1.0);
+    println!(at(branch_1, 0) == 1.0 && at(branch_1, 1) == 1.0 && sheet_recalc_command(branch_1) == "coalesce_edits");
+    let branch_2 = sheet_recalc_step([1, 0, 0], "run", 0.0);
+    println!(at(branch_2, 0) == 2.0 && at(branch_2, 1) == 0.0 && sheet_recalc_command(branch_2) == "evaluate_cells");
+    let branch_3 = sheet_recalc_step([2, 0, 0], "edit", 1.0);
+    println!(at(branch_3, 0) == 1.0 && at(branch_3, 1) == 1.0 && sheet_recalc_command(branch_3) == "invalidate_run");
+    let branch_4 = sheet_recalc_step([2, 0, 0], "result", 0.0);
+    println!(at(branch_4, 0) == 3.0 && at(branch_4, 1) == 0.0 && sheet_recalc_command(branch_4) == "publish_values");
+    let branch_5 = sheet_recalc_step([3, 0, 0], "edit", 1.0);
+    println!(at(branch_5, 0) == 1.0 && at(branch_5, 1) == 1.0 && sheet_recalc_command(branch_5) == "mark_dirty");
+}

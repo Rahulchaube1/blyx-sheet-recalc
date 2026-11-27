@@ -1,0 +1,27 @@
+{
+  "sheet_recalc_start": {
+    "prefix": "sheet_recalc_start",
+    "body": "sheet_recalc_start()",
+    "description": "Sheet Recalc \u00b7 Fence cached spreadsheet results to the revision that triggered recalculation."
+  },
+  "sheet_recalc_step": {
+    "prefix": "sheet_recalc_step",
+    "body": "sheet_recalc_step(${1:snapshot}, ${2:event}, ${3:value})",
+    "description": "Sheet Recalc \u00b7 Fence cached spreadsheet results to the revision that triggered recalculation."
+  },
+  "sheet_recalc_command": {
+    "prefix": "sheet_recalc_command",
+    "body": "sheet_recalc_command(${1:snapshot})",
+    "description": "Sheet Recalc \u00b7 Fence cached spreadsheet results to the revision that triggered recalculation."
+  },
+  "sheet_recalc_replay": {
+    "prefix": "sheet_recalc_replay",
+    "body": "sheet_recalc_replay(${1:events}, ${2:values})",
+    "description": "Sheet Recalc \u00b7 Fence cached spreadsheet results to the revision that triggered recalculation."
+  },
+  "Import sheet_recalc": {
+    "prefix": "use_sheet_recalc",
+    "body": "use vendor::sheet_recalc::sheet_recalc;",
+    "description": "Import the installed Sheet Recalc module"
+  }
+}

@@ -1,0 +1,69 @@
+// Fence cached spreadsheet results to the revision that triggered recalculation.
+use std::cli;
+
+pub fn sheet_recalc_start() -> vector { [0, 0, 0] }
+
+pub fn sheet_recalc_step(snapshot: vector, event: str, value: f64) -> vector {
+    if len(snapshot) != 3 { return []; }
+    let phase = at(snapshot, 0);
+    let saved = at(snapshot, 1);
+    let previous = at(snapshot, 2);
+    if !(phase >= 0.0 && phase < 4.0 && phase % 1.0 == 0.0 && previous >= 0.0 && previous < 6.0 && previous % 1.0 == 0.0 && saved >= 0.0 && saved <= 9007199254740991.0 && saved % 1.0 == 0.0) { return []; }
+    if !(value >= 0.0 && value <= 1000000000.0 && value % 1.0 == 0.0) { return [phase, saved, 0]; }
+    // idle
+    if phase == 0.0 {
+        if event == "edit" && value>0.0 {
+            return [1, value, 1]; // mark_dirty
+        }
+    }
+    // dirty
+    if phase == 1.0 {
+        if event == "edit" && value>saved {
+            return [1, value, 2]; // coalesce_edits
+        }
+        if event == "run" {
+            return [2, saved, 3]; // evaluate_cells
+        }
+    }
+    // computing
+    if phase == 2.0 {
+        if event == "edit" && value>saved {
+            return [1, value, 4]; // invalidate_run
+        }
+        if event == "result" && value==saved {
+            return [3, saved, 5]; // publish_values
+        }
+    }
+    // clean
+    if phase == 3.0 {
+        if event == "edit" && value>saved {
+            return [1, value, 1]; // mark_dirty
+        }
+    }
+    [phase, saved, 0]
+}
+
+pub fn sheet_recalc_command(snapshot: vector) -> str {
+    if len(snapshot) != 3 { return "invalid"; }
+    let action = at(snapshot, 2);
+    if action == 0.0 { return "reject"; }
+    if action == 1.0 { return "mark_dirty"; }
+    if action == 2.0 { return "coalesce_edits"; }
+    if action == 3.0 { return "evaluate_cells"; }
+    if action == 4.0 { return "invalidate_run"; }
+    if action == 5.0 { return "publish_values"; }
+    "invalid"
+}
+
+// Stop at the first rejected event. No host effects run during replay.
+pub fn sheet_recalc_replay(events: arglist, values: vector) -> vector {
+    if args_len(events) != len(values) { return []; }
+    let mut state = sheet_recalc_start();
+    let mut i = 0;
+    while i < len(values) {
+        state = sheet_recalc_step(state, args_at(events, i), at(values, i));
+        if at(state, 2) == 0.0 { return []; }
+        i += 1;
+    }
+    state
+}

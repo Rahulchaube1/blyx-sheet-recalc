@@ -1,0 +1,28 @@
+{
+  "name": "blyx-sheet-recalc",
+  "displayName": "Sheet Recalc for Blyx",
+  "publisher": "RahulChaube",
+  "version": "0.1.1",
+  "description": "Fence cached spreadsheet results to the revision that triggered recalculation.",
+  "license": "MIT",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Snippets"
+  ],
+  "icon": "icon.png",
+  "homepage": "https://nest.blyx-lang.space/packages/sheet_recalc.html",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Rahulchaube1/blyx-sheet-recalc.git"
+  },
+  "contributes": {
+    "snippets": [
+      {
+        "language": "blyx",
+        "path": "./snippets.json"
+      }
+    ]
+  }
+}
