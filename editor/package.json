@@ -2,7 +2,7 @@
   "name": "blyx-sheet-recalc",
   "displayName": "Sheet Recalc for Blyx",
   "publisher": "RahulChaube",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Fence cached spreadsheet results to the revision that triggered recalculation.",
   "license": "MIT",
   "engines": {

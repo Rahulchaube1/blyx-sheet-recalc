@@ -1,10 +1,12 @@
 # Sheet Recalc
 
-![Package logo](https://github.com/Rahulchaube1/blyx-sheet-recalc/raw/v0.1.1/editor/icon.png)
+![Oilbird](https://github.com/Rahulchaube1/blyx-sheet-recalc/raw/v0.1.2/editor/icon.png)
 
 Fence cached spreadsheet results to the revision that triggered recalculation.
 
-Document production and accessibility · framework · 0.1.1
+Document production and accessibility · framework · 0.1.2
+
+Framework bird: Oilbird.
 
 ## Drive the workflow
 
@@ -38,11 +40,11 @@ Run `blyxc native-run main.blyx` to reproduce `expected.txt`. Run `blyxc native-
 ## Try the published project
 
 ```sh
-nest demo sheet_recalc@0.1.1
+nest demo sheet_recalc@0.1.2
 blyxc native-run sheet_recalc-demo/main.blyx
 ```
 
-Install with `nest add sheet_recalc@0.1.1` and import `vendor::sheet_recalc::sheet_recalc`.
+Install with `nest add sheet_recalc@0.1.2` and import `vendor::sheet_recalc::sheet_recalc`.
 
 Maintained by Rahul Chaube. [Blyx](https://www.blyx-lang.space) · [GitHub](https://github.com/Rahulchaube1) · [LinkedIn](https://www.linkedin.com/in/rahulchaube1) · [Sponsor](https://github.com/sponsors/Rahulchaube1)
 
